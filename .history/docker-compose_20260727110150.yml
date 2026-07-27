@@ -1,0 +1,79 @@
+services:
+  # MariaDB Database
+  mariadb:
+    image: mariadb:10.11
+    container_name: evounik_mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: evounik_db
+      MYSQL_USER: evounik_user
+      MYSQL_PASSWORD: evounik_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - evounik_network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PHP-FPM Application
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: evounik_php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+    networks:
+      - evounik_network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  # Nginx Web Server
+  nginx:
+    image: nginx:alpine
+    container_name: evounik_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+    networks:
+      - evounik_network
+    depends_on:
+      - php
+
+  # Redis for caching (optional but recommended for Symfony)
+  redis:
+    image: redis:7-alpine
+    container_name: evounik_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - evounik_network
+
+volumes:
+  mariadb_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  evounik_network:
+    driver: bridge
