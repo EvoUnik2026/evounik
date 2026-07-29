@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evounik - Home{% endblock %}
+
+{% block stylesheets %}
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: #f0f2f5;
+        color: #1a1a2e;
+        line-height: 1.6;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        color: white;
+        padding: 60px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: #f0f2f5;
+        border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+    header h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -1px; }
+    header p { font-size: 1.15rem; color: #a0aec0; max-width: 600px; margin: 0 auto; }
+
+    /* Topics Grid */
+    .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px; margin-top: -40px; padding-bottom: 60px; position: relative; z-index: 1; }
+
+    .topic-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex; flex-direction: column;
+    }
+    .topic-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+
+    .topic-card-image {
+        width: 100%; height: 200px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 3rem; color: rgba(255,255,255,0.5);
+        overflow: hidden;
+    }
+    .topic-card-image img { width: 100%; height: 100%; object-fit: cover; }
+    .topic-card-image .placeholder-icon { font-size: 3.5rem; opacity: 0.5; }
+
+    .topic-card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+    .topic-card-category {
+        font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px;
+        color: #667eea; font-weight: 700; margin-bottom: 8px;
+    }
+
+    .topic-card h2 { font-size: 1.35rem; font-weight: 700; margin-bottom: 10px; color: #1a1a2e; }
+    .topic-card h2 a { color: inherit; text-decoration: none; }
+    .topic-card h2 a:hover { color: #667eea; }
+
+    .topic-card p { font-size: 0.95rem; color: #64748b; line-height: 1.65; flex: 1; }
+
+    .topic-card-footer {
+        padding: 16px 24px;
+        border-top: 1px solid #f1f5f9;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .topic-card-footer .block-count { font-size: 0.85rem; color: #94a3b8; }
+    .topic-card-footer .read-more {
+        display: inline-flex; align-items: center; gap: 6px;
+        color: #667eea; font-weight: 600; font-size: 0.9rem;
+        text-decoration: none; transition: gap 0.2s;
+    }
+    .topic-card-footer .read-more:hover { gap: 10px; }
+
+    /* Footer */
+    footer {
+        text-align: center; padding: 32px 0;
+        color: #94a3b8; font-size: 0.85rem;
+        border-top: 1px solid #e2e8f0;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<header>
+    <div class="container">
+        <h1>Evounik</h1>
+        <p>Ontdek onze verhalen over innovatie, duurzaamheid en digitale transformatie</p>
+    </div>
+</header>
+
+<main class="container">
+    <div class="topics-grid">
+        {% for topic in topics %}
+        <article class="topic-card">
+            <div class="topic-card-image">
+                <img src="{{ topic.image ? (topic.image starts with('http') or topic.image starts with('/')) ? topic.image : asset(topic.image) : fallback_image_url() }}" alt="{{ topic.title }}"
+                     onerror="this.onerror=null; this.src='{{ fallback_image_url() }}';">
+            </div>
+            <div class="topic-card-body">
+                <div class="topic-card-category">Topic</div>
+                <h2><a href="{{ path('app_topic_detail', {slug: topic.slug}) }}">{{ topic.title }}</a></h2>
+                <p>{{ topic.summary }}</p>
+            </div>
+            <div class="topic-card-footer">
+                <span class="block-count">{{ topic.blocks|length }} blok{% if topic.blocks|length != 1 %}ken{% endif %}</span>
+                <a href="{{ path('app_topic_detail', {slug: topic.slug}) }}" class="read-more">
+                    Lees meer <span>→</span>
+                </a>
+            </div>
+        </article>
+        {% else %}
+        <p style="grid-column: 1 / -1; text-align: center; padding: 60px 0; color: #94a3b8;">
+            Nog geen topics beschikbaar.
+        </p>
+        {% endfor %}
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        &copy; {{ "now"|date("Y") }} Evounik. Alle rechten voorbehouden.
+    </div>
+</footer>
+{% endblock %}

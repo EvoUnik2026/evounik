@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Topics{% endblock %}
+
+{% block stylesheets %}
+<style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f7fafc; color: #1f2937; }
+    .container { max-width: 960px; margin: 40px auto; padding: 0 20px; }
+    .card { background: white; border-radius: 18px; box-shadow: 0 16px 40px rgba(15, 23, 42, 0.07); padding: 28px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #e5e7eb; }
+    th { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; }
+    td { vertical-align: middle; }
+    input[type="number"] { width: 80px; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 10px; }
+    .checkbox-cell input { transform: scale(1.2); margin-right: 10px; }
+    .topic-link { color: #1d4ed8; text-decoration: none; font-weight: 600; }
+    .topic-link:hover { text-decoration: underline; }
+    .submit-row { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+    .primary-btn { background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 999px; cursor: pointer; font-weight: 700; }
+    .primary-btn:hover { background: #1d4ed8; }
+    .flash-success { margin-bottom: 20px; padding: 14px 18px; border-radius: 12px; background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card">
+        <h1>Topic beheer</h1>
+        <p>Pas de positie en zichtbaarheid op de homepage aan.</p>
+
+        {% for message in app.flashes('success') %}
+            <div class="flash-success">{{ message }}</div>
+        {% endfor %}
+
+        <form method="post">
+            <input type="hidden" name="_token" value="{{ csrf_token('admin_topics') }}">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Positie</th>
+                        <th>Op homepage</th>
+                        <th>Acties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for topic in topics %}
+                        <tr>
+                            <td>
+                                <a class="topic-link" href="{{ path('app_topic_detail', {slug: topic.slug}) }}">{{ topic.title }}</a>
+                            </td>
+                            <td>
+                                <input type="number" name="position[{{ topic.id }}]" value="{{ topic.position }}" min="0">
+                            </td>
+                            <td class="checkbox-cell">
+                                <label>
+                                    <input type="checkbox" name="showOnHomepage[{{ topic.id }}]" value="1" {% if topic.showOnHomepage %}checked{% endif %}>
+                                    Ja
+                                </label>
+                            </td>
+                            <td>
+                                <a class="topic-link" href="{{ path('app_topic_detail', {slug: topic.slug}) }}">Bekijk</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="submit-row">
+                <span>Veranderingen opslaan om de homepage te updaten</span>
+                <button type="submit" class="primary-btn">Opslaan</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
