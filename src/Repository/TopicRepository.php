@@ -18,8 +18,19 @@ class TopicRepository extends ServiceEntityRepository
         return $this->findOneBy(['slug' => $slug]);
     }
 
+    public function findHomepageTopics(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.showOnHomepage = :visible')
+            ->setParameter('visible', true)
+            ->orderBy('t.position', 'ASC')
+            ->addOrderBy('t.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAllOrderedByCreatedAt(): array
     {
-        return $this->findBy([], ['createdAt' => 'DESC']);
+        return $this->findBy([], ['position' => 'ASC', 'createdAt' => 'DESC']);
     }
 }

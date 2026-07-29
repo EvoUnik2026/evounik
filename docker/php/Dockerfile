@@ -3,6 +3,8 @@ FROM php:8.5-fpm-alpine
 # Install system dependencies
 RUN apk add --no-cache \
     nginx \
+    nodejs \
+    npm \
     libpng-dev \
     libjpeg-turbo-dev \
     libwebp-dev \
@@ -46,11 +48,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy composer files (composer.lock may not exist in initial setup)
-COPY composer.json ./
+# Copy composer files so dependency installation uses the lock file
+COPY composer.json composer.lock ./
 
 # Install composer dependencies
-RUN composer install --no-scripts --no-autoloader --no-dev --prefer-dist
+RUN composer install --no-scripts --no-plugins --no-autoloader --no-dev --prefer-dist --no-interaction
 
 # Copy application files
 COPY . .

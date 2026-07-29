@@ -37,7 +37,14 @@ class Topic
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $position = 0;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $showOnHomepage = true;
+
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: Block::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $blocks;
 
     public function __construct()
@@ -132,6 +139,30 @@ class Topic
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): static
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function isShowOnHomepage(): bool
+    {
+        return $this->showOnHomepage;
+    }
+
+    public function setShowOnHomepage(bool $showOnHomepage): static
+    {
+        $this->showOnHomepage = $showOnHomepage;
 
         return $this;
     }
