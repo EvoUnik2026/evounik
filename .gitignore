@@ -46,6 +46,7 @@ docker-compose.override.yml
 /public/bundles/
 /var/
 /vendor/
+/node_modules/
 ###< symfony/framework-bundle ###
 
 ###> symfony/asset-mapper ###
