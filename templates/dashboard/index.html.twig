@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<main style="max-width:1000px;margin:40px auto;padding:32px;">
+    <h1>Dashboard</h1>
+    <p>Welkom, {{ app.user.username }}. Dit is jouw gebruikersdashboard.</p>
+</main>
+{% endblock %}

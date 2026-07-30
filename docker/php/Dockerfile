@@ -1,4 +1,4 @@
-FROM php:8.5-fpm-alpine
+FROM php:8.4.1-fpm-alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -51,8 +51,8 @@ WORKDIR /var/www/html
 # Copy composer files so dependency installation uses the lock file
 COPY composer.json composer.lock ./
 
-# Install composer dependencies
-RUN composer install --no-scripts --no-plugins --no-autoloader --no-dev --prefer-dist --no-interaction
+# Install composer dependencies from lock file, including dev packages
+RUN composer install --no-scripts --no-plugins --no-autoloader --prefer-dist --no-interaction
 
 # Copy application files
 COPY . .

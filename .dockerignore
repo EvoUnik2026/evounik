@@ -1,0 +1,14 @@
+node_modules
+.git
+.var
+vendor
+public/assets
+public/bundles
+.env
+.env.*
+.history
+.vscode
+.idea
+.DS_Store
+README.md
+composer.phar
