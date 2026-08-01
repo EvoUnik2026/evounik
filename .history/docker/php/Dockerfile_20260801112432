@@ -97,3 +97,12 @@ RUN mkdir -p var \
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
+
+
+# ------------------------------------------------------------
+# Generate optimized Composer autoloader
+# ------------------------------------------------------------
+RUN composer dump-autoload \
+    --optimize \
+    --no-scripts

@@ -75,13 +75,22 @@ COPY composer.json composer.lock symfony.lock ./
 RUN composer install \
     --prefer-dist \
     --no-interaction \
-    --no-progress
+    --no-progress \
+    --no-scripts
 
 
 # ------------------------------------------------------------
 # Copy application
 # ------------------------------------------------------------
 COPY . .
+
+
+# ------------------------------------------------------------
+# Generate optimized Composer autoloader
+# ------------------------------------------------------------
+RUN composer dump-autoload \
+    --optimize \
+    --no-scripts
 
 
 # ------------------------------------------------------------

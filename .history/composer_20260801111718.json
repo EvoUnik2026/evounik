@@ -33,12 +33,12 @@
         "symfony/security-bundle": "7.4.*",
         "symfony/security-csrf": "7.4.*",
 
-        "symfony/stimulus-bundle": "^3.4",
+        "symfony/stimulus-bundle": "^3.3",
         "symfony/translation": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
         "symfony/twig-pack": "^1.0",
         "symfony/uid": "7.4.*",
-        "symfony/ux-turbo": "^3.4",
+        "symfony/ux-turbo": "^3.3",
         "symfony/validator": "7.4.*",
         "symfony/yaml": "7.4.*",
 
@@ -55,8 +55,7 @@
 
     "config": {
         "allow-plugins": {
-            "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/flex": true
         },
         "sort-packages": true,
         "optimize-autoloader": true

@@ -10,7 +10,7 @@
         <div style="margin-bottom:18px;padding:14px 18px;background:#fee2e2;color:#b91c1c;border-radius:12px;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post" style="display:grid;gap:18px;">
+    <form action="/login_check" method="post" style="display:grid;gap:18px;">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
         <label style="display:block;font-weight:700;color:#111827;">Email</label>

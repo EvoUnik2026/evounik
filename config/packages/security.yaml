@@ -22,7 +22,15 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\LoginFormAuthenticator
+            form_login:
+                login_path: /login
+                check_path: /login_check
+                enable_csrf: true
+                csrf_parameter: _csrf_token
+                csrf_token_id: authenticate
+                default_target_path: app_dashboard
+                username_parameter: email
+                password_parameter: password
             logout:
                 path: /logout
                 target: /
