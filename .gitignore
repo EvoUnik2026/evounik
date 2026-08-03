@@ -25,6 +25,9 @@ composer.lock
 *.swo
 *~
 
+# History (auto-generated backup files)
+.history/
+
 # OS
 .DS_Store
 Thumbs.db
