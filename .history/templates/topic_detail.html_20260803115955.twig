@@ -9,9 +9,9 @@
 {% block body %}
 <div class="container">
     <a href="{{ path('app_homepage') }}" class="back-link">← Terug naar overzicht</a>
-    <form action="{{ path('app_topic_toggle_homepage', {slug: topic.slug}) }}" method="post" class="toggle-homepage-form">
+    <form action="{{ path('app_topic_toggle_homepage', {slug: topic.slug}) }}" method="post" style="display:inline-block; margin-top: 16px;">
         <input type="hidden" name="_token" value="{{ csrf_token('toggle_homepage') }}">
-        <button type="submit" class="back-link toggle-homepage-button">
+        <button type="submit" class="back-link" style="display:inline-flex; padding: 8px 14px; background: #fff; border: 1px solid #dfe3e8; border-radius: 999px; color: #1d4ed8; font-weight: 600;">
             {% if topic.showOnHomepage %}
                 Verberg van homepage
             {% else %}
