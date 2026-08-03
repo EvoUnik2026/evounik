@@ -3,7 +3,7 @@ twig:
     form_themes: ['bootstrap_5_layout.html.twig']
     globals:
         app_name: 'Evounik'
-        pi: 3.141592653589793
+        pi: !php/const M_PI
 
 when@test:
     twig:
