@@ -21,18 +21,50 @@
         {% endif %}
     </head>
     <body>
-        <nav style="display:flex; justify-content:flex-end; gap:16px; padding:18px 24px; background:#f8fafc; border-bottom:1px solid #e2e8f0;">
-            {% if app.user %}
-                <span style="color:#334155;">{{ app.user.username }}</span>
-                <a href="{{ path('app_dashboard') }}">Dashboard</a>
-                {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('app_admin_dashboard') }}">Admin</a>{% endif %}
-                <a href="{{ path('app_logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ path('app_login') }}">Login</a>
-                <a href="{{ path('app_register') }}">Register</a>
-            {% endif %}
-        </nav>
+        <header class="bg-white border-b shadow-sm">
+            <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <a href="{{ path('app_homepage') }}" class="text-2xl font-bold text-slate-800">Evounik</a>
+                    <span class="text-sm text-slate-500 hidden md:inline">&middot; <em class="text-slate-400">placeholder for logo</em></span>
+                </div>
 
-        {% block body %}{% endblock %}
+                <nav class="flex items-center gap-4">
+                    <a href="{{ path('app_homepage') }}" class="text-slate-700 hover:text-slate-900">Home</a>
+                    <a href="{{ path('app_topic_detail', {'slug': 'example'}) }}" class="text-slate-700 hover:text-slate-900 hidden sm:inline">Topics</a>
+                    {% if app.user %}
+                        <a href="{{ path('app_dashboard') }}" class="text-slate-700 hover:text-slate-900">Dashboard</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_admin_dashboard') }}" class="text-slate-700 hover:text-slate-900">Admin</a>
+                        {% endif %}
+                        <a href="{{ path('app_logout') }}" class="text-slate-700 hover:text-slate-900">Logout</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="text-slate-700 hover:text-slate-900">Login</a>
+                        <a href="{{ path('app_register') }}" class="text-slate-700 hover:text-slate-900">Register</a>
+                    {% endif %}
+                </nav>
+
+                <div class="flex items-center gap-3">
+                    <div class="text-sm text-slate-600">Language</div>
+                    <div class="flex items-center gap-2">
+                        <a href="{{ app.request.uri }}?_locale=nl" class="text-sm">Nederlands</a>
+                        <span class="text-slate-300">|</span>
+                        <a href="{{ app.request.uri }}?_locale=en" class="text-sm">English</a>
+                        <span class="text-slate-300">|</span>
+                        <a href="{{ app.request.uri }}?_locale=ar" class="text-sm">عربي</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50">
+                <div class="container mx-auto px-4 py-2 text-center">
+                    <p class="text-sm text-slate-600">Slogan placeholder — voeg hier een korte, krachtige zin toe.</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-6">
+            {% block body %}{% endblock %}
+        </main>
+
     </body>
 </html>
