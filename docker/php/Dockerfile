@@ -1,4 +1,4 @@
-FROM php:8.4-fpm-alpine
+FROM php:8.4-fpm-alpine3.21
 
 # ------------------------------------------------------------
 # System dependencies
@@ -26,29 +26,29 @@ RUN apk add --no-cache \
 # PHP extensions
 # ------------------------------------------------------------
 RUN docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
+    --with-freetype \
+    --with-jpeg \
+    --with-webp \
     && docker-php-ext-install -j"$(nproc)" \
-        pdo_mysql \
-        mbstring \
-        exif \
-        bcmath \
-        gd \
-        zip \
-        intl \
-        xml \
-        opcache
+    pdo_mysql \
+    mbstring \
+    exif \
+    bcmath \
+    gd \
+    zip \
+    intl \
+    xml \
+    opcache
 
 
 # ------------------------------------------------------------
 # OPcache configuration
 # ------------------------------------------------------------
 RUN { \
-        echo 'opcache.enable=1'; \
-        echo 'opcache.enable_cli=1'; \
-        echo 'opcache.validate_timestamps=1'; \
-        echo 'opcache.revalidate_freq=0'; \
+    echo 'opcache.enable=1'; \
+    echo 'opcache.enable_cli=1'; \
+    echo 'opcache.validate_timestamps=1'; \
+    echo 'opcache.revalidate_freq=0'; \
     } > /usr/local/etc/php/conf.d/opcache.ini
 
 
@@ -75,12 +75,9 @@ COPY composer.json composer.lock symfony.lock ./
 RUN composer install \
     --prefer-dist \
     --no-interaction \
-    --no-progress
+    --no-progress \
+    --no-scripts
 
-
-# ------------------------------------------------------------
-# Copy application
-# ------------------------------------------------------------
 COPY . .
 
 

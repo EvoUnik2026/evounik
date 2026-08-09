@@ -1,70 +1,89 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
-        {% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-            <script src="{{ asset('assets/js/app.js') }}" defer></script>
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    <link rel="stylesheet" href="{{ asset('var/tailwind/app.built.css') }}">
 
-        {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphp_hot_reload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
-    </head>
-    <body>
-        <header class="bg-white border-b shadow-sm">
-            <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <a href="{{ path('app_homepage') }}" class="text-2xl font-bold text-slate-800">Evounik</a>
-                    <span class="text-sm text-slate-500 hidden md:inline">&middot; <em class="text-slate-400">placeholder for logo</em></span>
-                </div>
+    {% block javascripts %}
+    {{ importmap('app') }}
+    {% endblock %}
 
-                <nav class="flex items-center gap-4">
-                    <a href="{{ path('app_homepage') }}" class="text-slate-700 hover:text-slate-900">Home</a>
-                    <a href="{{ path('app_topic_detail', {'slug': 'example'}) }}" class="text-slate-700 hover:text-slate-900 hidden sm:inline">Topics</a>
+    {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+    {% if frankenphp_hot_reload %}
+    <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
+    <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+    <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+    {% endif %}
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
+        <div class="mx-auto flex max-w-7xl justify-between px-4 py-4 lg:px-8">
+
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <a href="{{ path('app_homepage') }}" class="block transition-transform hover:scale-105">
+                    <img src="{{ asset('images/evouniek.png') }}" alt="EvoUnik" class="h-10 w-auto"
+                        style="object-fit: contain; width:273px">
+                </a>
+            </div>
+
+            <!-- Right Side Actions & Nav -->
+            <div class="flex items-center gap-6">
+
+                <!-- Main Navigation -->
+                <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+                    <a href="{{ path('app_homepage') }}" class="hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="{{ path('app_topic_detail', {'slug': 'example'}) }}"
+                        class="hover:text-indigo-600 transition-colors">Topics</a>
+
                     {% if app.user %}
-                        <a href="{{ path('app_dashboard') }}" class="text-slate-700 hover:text-slate-900">Dashboard</a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('app_admin_dashboard') }}" class="text-slate-700 hover:text-slate-900">Admin</a>
-                        {% endif %}
-                        <a href="{{ path('app_logout') }}" class="text-slate-700 hover:text-slate-900">Logout</a>
+                    <a href="{{ path('app_dashboard') }}" class="hover:text-indigo-600 transition-colors">Dashboard</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_dashboard') }}"
+                        class="hover:text-indigo-600 transition-colors">Admin</a>
+                    {% endif %}
+                    <a href="{{ path('app_logout') }}"
+                        class="ml-4 text-slate-500 hover:text-red-500 transition-colors">Logout</a>
                     {% else %}
-                        <a href="{{ path('app_login') }}" class="text-slate-700 hover:text-slate-900">Login</a>
-                        <a href="{{ path('app_register') }}" class="text-slate-700 hover:text-slate-900">Register</a>
+                    <a href="{{ path('app_login') }}" class="hover:text-indigo-600 transition-colors">Login</a>
+                    <a href="{{ path('app_register') }}"
+                        class="bg-indigo-600 text-white px-6 py-2.5 rounded-full hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">Register</a>
                     {% endif %}
                 </nav>
 
-                <div class="flex items-center gap-3">
-                    <div class="text-sm text-slate-600">Language</div>
-                    <div class="flex items-center gap-2">
-                        <a href="{{ app.request.uri }}?_locale=nl" class="text-sm">Nederlands</a>
-                        <span class="text-slate-300">|</span>
-                        <a href="{{ app.request.uri }}?_locale=en" class="text-sm">English</a>
-                        <span class="text-slate-300">|</span>
-                        <a href="{{ app.request.uri }}?_locale=ar" class="text-sm">عربي</a>
-                    </div>
+                <!-- Language Selector (Pill Style) -->
+                <div
+                    class="hidden sm:flex items-center gap-2 text-xs font-bold text-slate-500 bg-slate-100/80 border border-slate-200 px-4 py-2 rounded-full backdrop-blur-sm">
+                    <a href="{{ app.request.uri }}?_locale=nl"
+                        class="hover:text-indigo-600 transition-colors uppercase tracking-wider">NL</a>
+                    <span class="text-slate-300">|</span>
+                    <a href="{{ app.request.uri }}?_locale=en"
+                        class="hover:text-indigo-600 transition-colors uppercase tracking-wider">EN</a>
+                    <span class="text-slate-300">|</span>
+                    <a href="{{ app.request.uri }}?_locale=ar"
+                        class="hover:text-indigo-600 transition-colors uppercase tracking-wider">AR</a>
                 </div>
+
+                <!-- Mobile Menu Button (Optional/Placeholder) -->
+                <button class="md:hidden text-slate-600 hover:text-indigo-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
             </div>
+        </div>
+    </header>
 
-            <div class="bg-slate-50">
-                <div class="container mx-auto px-4 py-2 text-center">
-                    <p class="text-sm text-slate-600">Slogan placeholder — voeg hier een korte, krachtige zin toe.</p>
-                </div>
-            </div>
-        </header>
+    <main class="container mx-auto px-4 py-6">
+        {% block body %}{% endblock %}
+    </main>
 
-        <main class="container mx-auto px-4 py-6">
-            {% block body %}{% endblock %}
-        </main>
+</body>
 
-    </body>
 </html>

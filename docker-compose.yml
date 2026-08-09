@@ -46,8 +46,9 @@ services:
       - vendor_data:/var/www/html/vendor
 
     environment:
-      APP_ENV: dev
       APP_DEBUG: "1"
+      APP_ENV: dev
+      DATABASE_URL: "mysql://evounik_user:evounik_password@mariadb:3306/evounik_db?serverVersion=mariadb-10.11.0&charset=utf8mb4"
       REDIS_URL: redis://redis:6379
 
     networks:
