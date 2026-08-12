@@ -133,6 +133,24 @@ Or from your host machine:
 mysql -h 127.0.0.1 -P 3306 -u evounik_user -pevounik_password evounik_db
 ```
 
+### Access MariaDB with HeidiSQL
+Connect from HeidiSQL (host Windows machine) using the **host** connection (the
+`mariadb` hostname only resolves *inside* the Docker network; on the host you
+must use `127.0.0.1`, otherwise you get `getaddrinfo for mariadb failed`).
+
+- **Session type**: MariaDB o MySQL
+- **Host / IP**: `127.0.0.1`
+- **Port**: `3306`
+- **User**: `evounik_user`
+- **Password**: `evounik_password`
+- **Database**: `evounik_db`
+
+> Tip: if you see `getaddrinfo for mariadb failed: Name does not resolve` when
+> opening the site, it means the app's `DATABASE_URL` uses the host name
+> `mariadb` while the PHP process runs *outside* Docker (e.g. via Laragon).
+> Fix: use `.env.local` to override the host to `127.0.0.1` — see the local
+> development note at the top of `.env.local`.
+
 ### Access Redis
 
 ```bash
@@ -153,7 +171,7 @@ The application uses the following environment variables (defined in `.env`):
 
 ### Database Credentials
 
-- **Host**: mariadb (or localhost from host machine)
+- **Host**: `mariadb` (Docker service name) – or `127.0.0.1` from the host machine (HeidiSQL / Laragon)
 - **Port**: 3306
 - **Database**: evounik_db
 - **Username**: evounik_user

@@ -21,64 +21,7 @@
 </head>
 
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
-    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
-        <div class="mx-auto flex max-w-7xl justify-between px-4 py-4 lg:px-8">
-
-            <!-- Logo -->
-            <div class="flex-shrink-0">
-                <a href="{{ path('app_homepage') }}" class="block transition-transform hover:scale-105">
-                    <img src="{{ asset('images/evouniek.png') }}" alt="EvoUnik" class="h-10 w-auto"
-                        style="object-fit: contain; width:273px">
-                </a>
-            </div>
-
-            <!-- Right Side Actions & Nav -->
-            <div class="flex items-center gap-6">
-
-                <!-- Main Navigation -->
-                <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
-                    <a href="{{ path('app_homepage') }}" class="hover:text-indigo-600 transition-colors">Home</a>
-                    <a href="{{ path('app_topic_detail', {'slug': 'example'}) }}"
-                        class="hover:text-indigo-600 transition-colors">Topics</a>
-
-                    {% if app.user %}
-                    <a href="{{ path('app_dashboard') }}" class="hover:text-indigo-600 transition-colors">Dashboard</a>
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_admin_dashboard') }}"
-                        class="hover:text-indigo-600 transition-colors">Admin</a>
-                    {% endif %}
-                    <a href="{{ path('app_logout') }}"
-                        class="ml-4 text-slate-500 hover:text-red-500 transition-colors">Logout</a>
-                    {% else %}
-                    <a href="{{ path('app_login') }}" class="hover:text-indigo-600 transition-colors">Login</a>
-                    <a href="{{ path('app_register') }}"
-                        class="bg-indigo-600 text-white px-6 py-2.5 rounded-full hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">Register</a>
-                    {% endif %}
-                </nav>
-
-                <!-- Language Selector (Pill Style) -->
-                <div
-                    class="hidden sm:flex items-center gap-2 text-xs font-bold text-slate-500 bg-slate-100/80 border border-slate-200 px-4 py-2 rounded-full backdrop-blur-sm">
-                    <a href="{{ app.request.uri }}?_locale=nl"
-                        class="hover:text-indigo-600 transition-colors uppercase tracking-wider">NL</a>
-                    <span class="text-slate-300">|</span>
-                    <a href="{{ app.request.uri }}?_locale=en"
-                        class="hover:text-indigo-600 transition-colors uppercase tracking-wider">EN</a>
-                    <span class="text-slate-300">|</span>
-                    <a href="{{ app.request.uri }}?_locale=ar"
-                        class="hover:text-indigo-600 transition-colors uppercase tracking-wider">AR</a>
-                </div>
-
-                <!-- Mobile Menu Button (Optional/Placeholder) -->
-                <button class="md:hidden text-slate-600 hover:text-indigo-600 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
+    {% include 'structure/shared/header.html.twig' %}
 
     <main class="container mx-auto px-4 py-6">
         {% block body %}{% endblock %}
