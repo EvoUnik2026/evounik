@@ -1,0 +1,18 @@
+# Configuration for App\Service\ImageService.
+# Override any of these values in .env.local (or config/packages/image.local.yaml)
+# to suit your project, e.g.:
+#   IMAGE_DEFAULT_WIDTH=1200
+parameters:
+    image.default_width: '%env(int:IMAGE_DEFAULT_WIDTH)%'
+    image.default_height: '%env(int:IMAGE_DEFAULT_HEIGHT)%'
+    image.quality: '%env(int:IMAGE_QUALITY)%'
+    image.fallback_path: 'images/evouniek.png'
+    image.cache_dir: '%kernel.project_dir%/var/image_cache'
+    image.public_dir: '%kernel.project_dir%/public'
+    image.allowed_mime_types:
+        - 'image/jpeg'
+        - 'image/png'
+        - 'image/gif'
+        - 'image/webp'
+        - 'image/bmp'
+        - 'image/avif'

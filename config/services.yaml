@@ -19,5 +19,10 @@ services:
     App\:
         resource: '../src/'
 
+    # Explicit wiring for services that need scalar configuration.
+    App\Command\ImageClearCacheCommand:
+        arguments:
+            $cacheDir: '%image.cache_dir%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

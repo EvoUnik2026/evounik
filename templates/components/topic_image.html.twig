@@ -1,0 +1,26 @@
+{# templates/components/topic_image.html.twig
+
+   Renders the image box for a topic card (used on the homepage).
+
+   Logic (per product requirement):
+     - image is null/empty -> the themed gradient background is shown (a color
+       suitable for the website theme); no <img> is emitted.
+     - image is an online URL (http/https) -> displayed as-is, untouched.
+     - image is a local path -> routed through ImageService so it is resized
+       and cropped to fit the box exactly.
+#}
+{% set alt = alt|default('') %}
+{% set width = width|default(640) %}
+{% set height = height|default(400) %}
+
+<div class="topic-card-image">
+    {% if image is empty %}
+        {# No image: rely on the .topic-card-image gradient background + icon #}
+        <span class="placeholder-icon" aria-hidden="true">📷</span>
+    {% else %}
+        {# image_tag() auto-detects external vs local: external URLs are
+           passed through, local paths go through the resizing controller.
+           `thumbnail: true` crops (covers) the image to the box. #}
+        {{ image_tag(image, width, height, { alt: alt, loading: 'lazy', thumbnail: true }) }}
+    {% endif %}
+</div>

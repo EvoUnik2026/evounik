@@ -9,10 +9,7 @@
     <div class="topics-grid">
         {% for topic in topics %}
         <article class="topic-card">
-            <div class="topic-card-image">
-                <img src="{{ topic.image ? (topic.image starts with('http') or topic.image starts with('/')) ? topic.image : asset(topic.image) : fallback_image_url() }}" alt="{{ topic.title }}"
-                     onerror="this.onerror=null; this.src='{{ fallback_image_url() }}';">
-            </div>
+            {% include 'components/topic_image.html.twig' with { image: topic.image, alt: topic.title, width: 640, height: 400 } %}
             <div class="topic-card-body">
                 <div class="topic-card-category">Topic</div>
                 <h2><a href="{{ path('app_topic_detail', {slug: topic.slug}) }}">{{ topic.title }}</a></h2>

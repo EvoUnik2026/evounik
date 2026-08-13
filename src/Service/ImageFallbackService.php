@@ -2,16 +2,14 @@
 
 namespace App\Service;
 
-use Symfony\Component\Asset\Packages;
-
 class ImageFallbackService
 {
-    public function __construct(private readonly Packages $packages)
+    public function __construct(private readonly ImageService $imageService)
     {
     }
 
     public function getFallbackImageUrl(): string
     {
-        return $this->packages->getUrl('images/evouniek.png');
+        return $this->imageService->getFallbackUrl();
     }
 }

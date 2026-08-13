@@ -22,7 +22,7 @@
 </div>
 
 <div class="hero-image">
-    <img src="{{ topic.image ? (topic.image starts with('http') or topic.image starts with('/')) ? topic.image : asset(topic.image) : fallback_image_url() }}" alt="{{ topic.title }}"
+    <img src="{{ topic.image ? image_src(topic.image) : fallback_image_url() }}" alt="{{ topic.title }}"
          onerror="this.onerror=null; this.src='{{ fallback_image_url() }}';">
 </div>
 

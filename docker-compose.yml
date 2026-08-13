@@ -102,6 +102,17 @@ services:
     networks:
       - evounik_network
 
+  adminer:
+    image: adminer
+    container_name: evounik-adminer
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mariadb
+    networks:
+      - evounik_network
+
 
 # --------------------------------------------------------------
 # Volumes
