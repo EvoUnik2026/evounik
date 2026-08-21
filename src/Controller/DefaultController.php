@@ -57,36 +57,4 @@ class DefaultController extends AbstractController
         return $this->redirectToRoute('app_topic_detail', ['slug' => $topic->getSlug()]);
     }
 
-    #[Route('/admin/topics', name: 'app_admin_topics', methods: ['GET', 'POST'])]
-    public function adminTopics(Request $request, TopicRepository $topicRepository, EntityManagerInterface $entityManager): Response
-    {
-        $topics = $topicRepository->findAllOrderedByCreatedAt();
-
-        if ($request->isMethod('POST')) {
-            if (!$this->isCsrfTokenValid('admin_topics', $request->request->get('_token'))) {
-                throw $this->createAccessDeniedException('Ongeldig CSRF-token');
-            }
-
-            $positions = $request->request->all('position');
-            $visible = $request->request->all('showOnHomepage');
-
-            foreach ($topics as $topic) {
-                if ($topic->getId() === null) {
-                    continue;
-                }
-
-                $topic->setPosition((int) ($positions[$topic->getId()] ?? 0));
-                $topic->setShowOnHomepage(isset($visible[$topic->getId()]));
-            }
-
-            $entityManager->flush();
-            $this->addFlash('success', 'Topics zijn bijgewerkt.');
-
-            return $this->redirectToRoute('app_admin_topics');
-        }
-
-        return $this->render('admin_topics.html.twig', [
-            'topics' => $topics,
-        ]);
-    }
 }

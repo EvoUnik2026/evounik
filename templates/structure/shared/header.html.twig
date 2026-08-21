@@ -21,7 +21,7 @@
                 {% if app.user %}
                 <a href="{{ path('app_dashboard') }}" class="hover:text-indigo-600 transition-colors">Dashboard</a>
                 {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('app_admin_dashboard') }}" class="hover:text-indigo-600 transition-colors">Admin</a>
+                <a href="{{ path('admin') }}" class="hover:text-indigo-600 transition-colors">Admin</a>
                 {% endif %}
                 <a href="{{ path('app_logout') }}"
                     class="ml-4 text-slate-500 hover:text-red-500 transition-colors">Logout</a>

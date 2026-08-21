@@ -4,7 +4,20 @@
 
 {% block body %}
 <main style="max-width:1000px;margin:40px auto;padding:32px;">
-    <h1>Admin Dashboard</h1>
-    <p>Alleen beheerders kunnen deze pagina zien.</p>
+    <h1 class="text-2xl font-black text-slate-900">Admin Dashboard</h1>
+    <p class="text-slate-500">Alleen beheerders kunnen deze pagina zien.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:28px;">
+        <a href="{{ path('app_admin_topics') }}" style="display:block;background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;text-decoration:none;box-shadow:0 10px 30px rgba(15,23,42,.06);">
+            <div style="font-size:2rem;">📑</div>
+            <div style="font-weight:800;color:#1e293b;margin-top:8px;">Topics beheren</div>
+            <div style="color:#64748b;font-size:.9rem;margin-top:4px;">Positie, zichtbaarheid en meer</div>
+        </a>
+        <a href="{{ path('app_homepage') }}" style="display:block;background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;text-decoration:none;box-shadow:0 10px 30px rgba(15,23,42,.06);">
+            <div style="font-size:2rem;">🏠</div>
+            <div style="font-weight:800;color:#1e293b;margin-top:8px;">Bekijk website</div>
+            <div style="color:#64748b;font-size:.9rem;margin-top:4px;">Naar de publieke homepage</div>
+        </a>
+    </div>
 </main>
 {% endblock %}

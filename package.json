@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "tailwindcss --input ./assets/styles/app.css --output ./var/tailwind/app.built.css --watch",
-    "build": "tailwindcss --input ./assets/styles/app.css --output ./var/tailwind/app.built.css"
+    "dev": "tailwindcss --input ./assets/styles/app.css --output ./public/styles/app.css --watch",
+    "build": "tailwindcss --input ./assets/styles/app.css --output ./public/styles/app.css"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",

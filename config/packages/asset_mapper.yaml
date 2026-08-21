@@ -2,8 +2,6 @@ framework:
     asset_mapper:
         paths:
             assets/: ''
-            vendor/symfony/stimulus-bundle/assets/dist/: '@symfony/stimulus-bundle'
-            vendor/symfony/ux-turbo/assets/dist/: '@symfony/ux-turbo'
 
         missing_import_mode: strict
 

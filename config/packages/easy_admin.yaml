@@ -1,0 +1,4 @@
+easy_admin:
+    site_name: 'Evounik Admin'
+    # Dashboard route is automatically configured via DashboardController
+    # See src/Controller/Admin/DashboardController.php

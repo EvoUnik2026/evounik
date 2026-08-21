@@ -1,0 +1,106 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block content %}
+<div class="container-xl">
+    <div class="page-wrapper">
+        <div class="container-xl">
+            <!-- Page title -->
+            <div class="page-header d-print-none">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h2 class="page-title">
+                            Welcome to Evounik Admin Panel
+                        </h2>
+                        <div class="text-muted mt-1">
+                            Manage your topics and content blocks
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="container-xl">
+                <div class="row row-deck row-cards">
+                    <!-- Topics Card -->
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-truncate">
+                                    <h3 class="card-title">
+                                        <a href="{{ ea_url().setController('App\\Entity\\Topic').setAction('index') }}">
+                                            Topics
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="text-muted">
+                                        <p>Manage all your topics and their metadata.</p>
+                                        <a href="{{ ea_url().setController('App\\Entity\\Topic').setAction('index') }}" 
+                                           class="btn btn-primary w-100 mt-3">
+                                            View Topics
+                                        </a>
+                                        <a href="{{ ea_url().setController('App\\Entity\\Topic').setAction('new') }}" 
+                                           class="btn btn-outline-primary w-100 mt-2">
+                                            Create New Topic
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blocks Card -->
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-truncate">
+                                    <h3 class="card-title">
+                                        <a href="{{ ea_url().setController('App\\Entity\\Block').setAction('index') }}">
+                                            Blocks
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="text-muted">
+                                        <p>Manage content blocks for your topics.</p>
+                                        <a href="{{ ea_url().setController('App\\Entity\\Block').setAction('index') }}" 
+                                           class="btn btn-primary w-100 mt-3">
+                                            View Blocks
+                                        </a>
+                                        <a href="{{ ea_url().setController('App\\Entity\\Block').setAction('new') }}" 
+                                           class="btn btn-outline-primary w-100 mt-2">
+                                            Create New Block
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Help Card -->
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-truncate">
+                                    <h3 class="card-title">
+                                        Quick Help
+                                    </h3>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="text-muted">
+                                        <ul style="padding-left: 1.5rem;">
+                                            <li><strong>Topics:</strong> Main content containers</li>
+                                            <li><strong>Blocks:</strong> Individual content items</li>
+                                            <li><strong>Types:</strong> Text, Image, Text+Image, Diagram</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

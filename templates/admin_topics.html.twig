@@ -29,8 +29,26 @@
         <h1>Topic beheer</h1>
         <p>Pas de positie en zichtbaarheid op de homepage aan.</p>
 
+        <div style="display:flex;gap:12px;margin-bottom:24px;padding:16px;background:#eef2ff;border-radius:12px;align-items:center;">
+            <strong style="color:#312e81;white-space:nowrap;">Nieuw topic:</strong>
+            <form method="post" action="{{ path('app_admin_topic_new') }}" style="display:flex;gap:8px;flex:1;">
+                <input type="hidden" name="_token" value="{{ csrf_token('topic_new') }}">
+                <input type="text" name="title" placeholder="Titel van het nieuwe topic" required
+                       style="flex:1;padding:10px 12px;border:1px solid #d1d5db;border-radius:10px;">
+                <button type="submit" class="primary-btn">Aanmaken</button>
+            </form>
+        </div>
+
         {% for message in app.flashes('success') %}
             <div class="flash-success">{{ message }}</div>
+        {% endfor %}
+
+        {% for label, messages in app.flashes %}
+            {% if label != 'success' %}
+                {% for message in messages %}
+                    <div class="flash-success" style="background:#fee2e2;color:#991b1b;border-color:#ef4444;">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
         {% endfor %}
 
         <form method="post">
@@ -62,6 +80,7 @@
                             </td>
                             <td>
                                 <a class="topic-link" href="{{ path('app_topic_detail', {slug: topic.slug}) }}">Bekijk</a>
+                                <a class="topic-link" href="{{ path('app_admin_topic_edit', {id: topic.id}) }}" style="margin-left: 12px;">Bewerk</a>
                             </td>
                         </tr>
                     {% endfor %}

@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Blok bewerken{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div>
+            <a href="{{ path('app_admin_topic_edit', {id: topic.id}) }}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800">← Terug naar topic</a>
+            <h1 class="mt-1 text-2xl font-black tracking-tight text-slate-900">
+                Blok bewerken
+                <span class="ml-2 rounded-full bg-indigo-100 px-3 py-1 text-sm font-bold text-indigo-700">{{ block.type|replace({'_': ' '})|title }}</span>
+            </h1>
+        </div>
+        <form method="post" action="{{ path('app_admin_block_delete', {id: block.id}) }}" onsubmit="return confirm('Dit blok verwijderen?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('block_delete') }}">
+            <button type="submit" class="rounded-full bg-red-600 px-4 py-2 text-sm font-bold text-white hover:bg-red-700">Verwijder blok</button>
+        </form>
+    </div>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="mb-4 rounded-xl px-4 py-3 border
+                {{ label == 'error' ? 'bg-red-50 border-red-200 text-red-700' : 'bg-emerald-50 border-emerald-200 text-emerald-700' }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <form id="block-form" method="post" action="{{ path('app_admin_block_edit', {id: block.id}) }}"
+          class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <input type="hidden" name="_token" value="{{ csrf_token('block_edit') }}">
+
+        {% if block.type == 'text' or block.type == 'text_image' %}
+        <div class="mb-4">
+            <label class="mb-1 block text-sm font-semibold text-slate-600">Inhoud (WYSIWYG)</label>
+            <textarea id="block_content" name="content" class="hidden">{{ block.content ?? '' }}</textarea>
+            <div id="editor" style="min-height: 280px;"></div>
+        </div>
+        {% endif %}
+
+        {% if block.type == 'image' or block.type == 'text_image' %}
+        <div class="grid gap-4 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+                <label class="mb-1 block text-sm font-semibold text-slate-600">Afbeelding (pad of URL)</label>
+                <input type="text" name="url" value="{{ block.metadata.url ?? '' }}"
+                       placeholder="/images/energy.jpg of https://…"
+                       class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="mb-1 block text-sm font-semibold text-slate-600">Alt tekst</label>
+                <input type="text" name="alt" value="{{ block.metadata.alt ?? '' }}"
+                       class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none">
+            </div>
+            {% if block.type == 'image' %}
+            <div>
+                <label class="mb-1 block text-sm font-semibold text-slate-600">Bijschrift</label>
+                <input type="text" name="caption" value="{{ block.metadata.caption ?? '' }}"
+                       class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none">
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+{% if block.type == 'text_image' %}
+        <div class="mb-4 mt-4">
+            <label class="mb-1 block text-sm font-semibold text-slate-600">Afbeelding positie</label>
+            <select name="side" class="rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none">
+                <option value="right" {% if (block.metadata.side ?? 'right') == 'right' %}selected{% endif %}>Rechts</option>
+                <option value="left" {% if (block.metadata.side ?? '') == 'left' %}selected{% endif %}>Links</option>
+            </select>
+        </div>
+        {% endif %}
+
+        {% if block.type == 'diagram' %}
+        <div class="grid gap-4">
+            <div>
+                <label class="mb-1 block text-sm font-semibold text-slate-600">Diagram type</label>
+                <select name="diagram_type" class="rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none">
+                    {% for chartType in ['pie', 'bar', 'line'] %}
+                        <option value="{{ chartType }}" {% if (block.metadata.type ?? 'pie') == chartType %}selected{% endif %}>
+                            {{ chartType|title }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="mb-1 block text-sm font-semibold text-slate-600">Titel</label>
+                <input type="text" name="title" value="{{ block.metadata.title ?? '' }}"
+                       class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="mb-1 block text-sm font-semibold text-slate-600">Data (één "Label: waarde" per regel)</label>
+                <textarea name="data_raw" rows="5" placeholder="Innovatie: 40&#10;Samenwerking: 30&#10;Duurzaamheid: 30"
+                          class="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm focus:border-indigo-500 focus:outline-none">{{ diagramData }}</textarea>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="mt-6 flex items-center gap-3">
+            <button type="submit" class="rounded-full bg-indigo-600 px-5 py-2 font-bold text-white hover:bg-indigo-700">
+                Blok opslaan
+            </button>
+            <a href="{{ path('app_admin_topic_edit', {id: topic.id}) }}" class="text-sm font-semibold text-slate-500 hover:text-slate-700">
+                Annuleren
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+{% if block.type == 'text' or block.type == 'text_image' %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    (function () {
+        const quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Schrijf hier de inhoud van het blok…',
+        });
+        quill.root.innerHTML = {{ (block.content ?? '')|json_encode|raw }};
+
+        document.getElementById('block-form').addEventListener('submit', function () {
+            document.getElementById('block_content').value = quill.root.innerHTML;
+        });
+    })();
+</script>
+{% endif %}
+{% endblock %}
+

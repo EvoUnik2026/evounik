@@ -45,7 +45,7 @@
     {% for block in topic.blocks %}
         {% if block.type == 'text' %}
         <div class="block block-text">
-            <p>{{ block.content|nl2br }}</p>
+            <p>{{ block.content|raw }}</p>
         </div>
 
         {% elseif block.type == 'image' %}
@@ -60,7 +60,7 @@
         {% elseif block.type == 'text_image' %}
         <div class="block block-text_image{% if block.metadata.side is defined and block.metadata.side == 'left' %} reverse{% endif %}">
             <div class="text-content">
-                <p>{{ block.content|nl2br }}</p>
+                <p>{{ block.content|raw }}</p>
             </div>
             <div class="image-content">
                 <img src="{{ block.metadata.url ? (block.metadata.url starts with('http') or block.metadata.url starts with('/')) ? block.metadata.url : asset(block.metadata.url) : fallback_image_url() }}" alt="{{ block.metadata.alt|default('') }}"

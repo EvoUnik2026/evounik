@@ -130,4 +130,9 @@ class Block
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return sprintf('%s #%d', $this->type ?? 'Block', $this->id ?? 0);
+    }
 }
